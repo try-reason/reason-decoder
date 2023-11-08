@@ -26,6 +26,7 @@ interface Delta {
 
 export default class StreamDecoder {
   public internalObj: Record<string, any> = {}
+  private buffer: string = ''
 
   constructor() {}
 
@@ -156,7 +157,7 @@ export default class StreamDecoder {
     }
   }
 
-  public decode(encoded: string): Record<string, any> {
+  private actualDecode(encoded: string) {
     if (encoded.indexOf(errorIdentifier) != -1) {
       throw new Error('The server returned an error.')
     }
@@ -169,7 +170,32 @@ export default class StreamDecoder {
     } catch (err) {
       console.error(err)
     }
-    
+  }
+
+  public decode(encoded: string): Record<string, any> {
+    this.buffer += encoded
+
+    if (this.buffer.indexOf(errorIdentifier) !== -1) {
+      throw new Error('The server returned an error.')
+    }
+
+    const texts = this.buffer.split(dividerStart)
+
+    for (let t of texts) {
+      if (t === '') continue
+
+      if (t.endsWith(dividerEnd)) {
+        this.actualDecode(t.replace(dividerEnd, ''))
+      } else {
+        this.buffer = t
+        break
+      }
+    }
+
+    if (texts[texts.length - 1].endsWith(dividerEnd)) {
+      this.buffer = ''
+    }
+
     return this.internalObj
   }
 }
