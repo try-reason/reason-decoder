@@ -86,6 +86,10 @@ export default class StreamDecoder {
   }
 
   private addDelta(val1: PrimitiveTypes, delta: Delta): any {
+    if (delta.override) {
+      return this.str2value(delta)
+    }
+    
     const str1 = val1.toString()
 
     let newVal = str1 + delta.delta
