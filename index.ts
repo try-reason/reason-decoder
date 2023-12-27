@@ -106,7 +106,7 @@ export default class StreamDecoder {
       let p = parts[i]
       let final = false
 
-      if (p === parts[parts.length - 1]) {
+      if (i === parts.length - 1) {
         // this is the last part of the path — which means its where we have to actually add the value
         final = true
       }
