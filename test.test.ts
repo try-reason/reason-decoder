@@ -4,10 +4,19 @@ import StreamDecoder from '.'
 test('decoding array', () => {
   const decoder = new StreamDecoder()
   decoder.internalObj = {
-    "points_of_interest": [
+    points_of_interest: [
       {
-        "name": "Golden Gate Bridge",
-        "short_description": "An iconic suspension bridge and a famous landmark of San Francisco."
+        name: "Golden Gate Bridge",
+        short_description: "An iconic suspension bridge and a famous landmark of San Francisco."
+      }
+    ]
+  }
+  const expected = {
+    points_of_interest: [
+      {
+        name: "Golden Gate Bridge",
+        short_description: "An iconic suspension bridge and a famous landmark of San Francisco.",
+        category: ['']
       }
     ]
   }
@@ -17,4 +26,5 @@ test('decoding array', () => {
   console.log(decoded);
   
   expect(typeof decoded.points_of_interest[0]).toBe('object')
+  expect(decoded).toEqual(expected)
 })
