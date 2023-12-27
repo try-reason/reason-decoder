@@ -1,10 +1,10 @@
 {
   "name": "reason-decoder",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "prepack": "bunx tsc"
+    "prepack": "bun test test.test.ts && bunx tsc"
   },
   "devDependencies": {
     "bun-types": "latest"
